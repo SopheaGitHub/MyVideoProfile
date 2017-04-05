@@ -15,6 +15,13 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 
+Route::group(['namespace' => 'Profile'], function()
+{
+	Route::controllers([
+		'profile/{profileid}' => 'ProfileController',
+	]);
+});
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
