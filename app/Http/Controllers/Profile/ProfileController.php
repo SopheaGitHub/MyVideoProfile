@@ -4,8 +4,20 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\DefineController;
+use App\Http\Controllers\Common\HeaderController;
+use App\Http\Controllers\Common\FooterController;
 class ProfileController extends Controller {
+
+	protected $data = null;
+
+	public function __construct(){
+
+		$this->data = new \stdClass();
+		$this->define = new DefineController();
+		$this->header = new HeaderController();
+		$this->footer = new FooterController();
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -14,71 +26,52 @@ class ProfileController extends Controller {
 	 */
 	public function getIndex($profileid)
 	{
-		return view('profile.index', compact('profileid'));
+		$this->data->title = 'Profile';
+
+		// define image profile
+		$imageProfiles = $this->define->bestImageUrl('profiles');
+		$imagePosts = $this->define->bestImageUrl('posts');
+
+		$this->data->avatar_g2 = $imageProfiles.'/avatar_g2.jpg';
+		$this->data->nature = $imagePosts.'/nature.jpg';
+		$this->data->mountains = $imagePosts.'/mountains.jpg';
+		$this->data->lights = $imagePosts.'/lights.jpg';
+		$this->data->nature = $imagePosts.'/nature.jpg';
+		$this->data->p1 = $imagePosts.'/p1.jpg';
+		$this->data->p2 = $imagePosts.'/p2.jpg';
+		$this->data->p3 = $imagePosts.'/p3.jpg';
+
+		// loading layout
+		$this->data->header = $this->header->index($this->data->title);
+		$this->data->footer = $this->footer->index();
+
+		return view('profile.index', ['data' => $this->data]);
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
+	public function getAbout() {
+		$this->data->title = 'About';
+		$imageProfiles = $this->define->bestImageUrl('profiles');
+
+		$this->data->avatar_g = $imageProfiles.'/avatar_g.jpg';
+		$this->data->me2 = $imageProfiles.'/me2.jpg';
+
+		// loading layout
+		$header = new HeaderController();
+		$footer = new FooterController();
+		$this->data->header = $header->index($this->data->title);
+		$this->data->footer = $footer->index();
+		return view('profile.about', ['data' => $this->data]);
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
+	public function getContact() {
+		$this->data->title = 'Contact';
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
+		// loading layout
+		$header = new HeaderController();
+		$footer = new FooterController();
+		$this->data->header = $header->index($this->data->title);
+		$this->data->footer = $footer->index();
+		return view('profile.contact', ['data' => $this->data]);
 	}
 
 }
