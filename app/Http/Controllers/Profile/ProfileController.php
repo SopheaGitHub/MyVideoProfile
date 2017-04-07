@@ -56,10 +56,8 @@ class ProfileController extends Controller {
 		$this->data->me2 = $imageProfiles.'/me2.jpg';
 
 		// loading layout
-		$header = new HeaderController();
-		$footer = new FooterController();
-		$this->data->header = $header->index($this->data->title);
-		$this->data->footer = $footer->index();
+		$this->data->header = $this->header->index($this->data->title);
+		$this->data->footer = $this->footer->index();
 		return view('profile.about', ['data' => $this->data]);
 	}
 
@@ -67,10 +65,8 @@ class ProfileController extends Controller {
 		$this->data->title = 'Contact';
 
 		// loading layout
-		$header = new HeaderController();
-		$footer = new FooterController();
-		$this->data->header = $header->index($this->data->title);
-		$this->data->footer = $footer->index();
+		$this->data->header = $this->header->index($this->data->title);
+		$this->data->footer = $this->footer->index();
 		return view('profile.contact', ['data' => $this->data]);
 	}
 

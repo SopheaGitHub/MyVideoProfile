@@ -29,9 +29,25 @@ class HeaderController extends Controller {
 		$this->data->avatar_g2 = $imageProfiles.'/avatar_g2.jpg';
 
 		$this->data->userName = $define->getUserName();
-		$this->data->profile = url('profile/'.$this->data->userName);
-		$this->data->about = url('profile/'.$this->data->userName.'/about');
-		$this->data->contact = url('profile/'.$this->data->userName.'/contact');
+		$this->data->profile = url('profile');
+		$this->data->about = url('profile/sophea/about');
+		$this->data->contact = url('profile/sophea/contact');
+
+		return view('common.header', ['data' => $this->data]);
+	}
+
+	public function webHeader($title=false)
+	{
+		$this->data->title = $title;
+		
+		$define = new DefineController();
+		$imageProfiles = $define->bestImageUrl('profiles');
+		$this->data->avatar_g2 = $imageProfiles.'/avatar_g2.jpg';
+
+		$this->data->userName = $define->getUserName();
+		$this->data->profile = url('/');
+		$this->data->about = url('about');
+		$this->data->contact = url('contact');
 
 		return view('common.header', ['data' => $this->data]);
 	}
